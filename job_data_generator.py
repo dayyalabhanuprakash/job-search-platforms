@@ -89,11 +89,26 @@ class JobDataGenerator:
             
             title = random.choice(self.job_titles)
             
+            # Generate realistic job search URLs
+            location_param = random.choice(self.locations) if not is_remote else 'Remote'
+            company_clean = company.replace(' ', '+').replace('&', 'and').replace('.', '')
+            title_clean = title.replace(' ', '+')
+            location_clean = location_param.replace(',', '').replace(' ', '+')
+            
+            # Create search URLs for popular job sites
+            job_search_urls = [
+                f'https://www.indeed.com/jobs?q={title_clean}&l={location_clean}&fromage=2',
+                f'https://www.linkedin.com/jobs/search/?keywords={title_clean}&location={location_clean}',
+                f'https://www.glassdoor.com/Job/jobs.htm?sc.keyword={title_clean}&locT=C&locId=&jobType=',
+                f'https://www.ziprecruiter.com/jobs-search?search={title_clean}&location={location_clean}',
+                f'https://www.google.com/search?q={title_clean}+{company_clean}+jobs+{location_clean}',
+            ]
+            
             job = {
                 'id': f'job-{i+1}',
                 'title': title,
                 'company': company,
-                'location': random.choice(self.locations) if not is_remote else 'Remote',
+                'location': location_param,
                 'remote': is_remote,
                 'salary': f'${salary_min}k - ${salary_max}k',
                 'job_type': random.choice(self.job_types),
@@ -101,7 +116,8 @@ class JobDataGenerator:
                 'posted_date': posted_date,
                 'description': f'Join our team as a {title}. Work on exciting projects with cutting-edge technologies.',
                 'skills': random.sample(self.skills_pool, k=random.randint(4, 8)),
-                'url': f'https://example.com/job-{i+1}',
+                'url': random.choice(job_search_urls),
+                'source': 'Generated',
                 'reputed': is_reputed
             }
             jobs.append(job)
