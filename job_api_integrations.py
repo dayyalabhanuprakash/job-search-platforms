@@ -49,7 +49,7 @@ class JobAPIIntegrations:
             base_url = "https://data.usajobs.gov/api/search"
             
             headers = {
-                'User-Agent': 'jobfinder@example.com',
+                'User-Agent': 'jobfinder/1.0',
                 'Authorization-Key': 'YOUR_API_KEY_HERE'  # Free to get
             }
             

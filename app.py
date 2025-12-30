@@ -39,6 +39,7 @@ def get_jobs():
     try:
         query = request.args.get('query', '')
         location = request.args.get('location', '')
+        company = request.args.get('company', '')
         remote = request.args.get('remote', 'false').lower() == 'true'
         job_type = request.args.get('job_type', 'all')
         experience_level = request.args.get('experience_level', 'all')
@@ -52,6 +53,7 @@ def get_jobs():
         result = job_aggregator.get_jobs(
             query=query,
             location=location,
+            company=company,
             remote=remote,
             job_type=job_type,
             experience_level=experience_level,
@@ -136,6 +138,13 @@ def serve_static(path):
         return send_from_directory('static', path)
     except:
         return send_from_directory('static', 'jobs.html')
+
+
+# Serve apply page for job details (client-side will fetch job data from API)
+@app.route('/apply/<job_id>')
+def apply_page(job_id):
+    """Serve the apply page which loads job details via JS"""
+    return send_from_directory('static', 'apply.html')
 
 # ===================================
 # Main

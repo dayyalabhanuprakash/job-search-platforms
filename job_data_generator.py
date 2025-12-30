@@ -89,20 +89,22 @@ class JobDataGenerator:
             
             title = random.choice(self.job_titles)
             
-            # Generate realistic job search URLs
+            # Generate realistic company career page URLs
             location_param = random.choice(self.locations) if not is_remote else 'Remote'
-            company_clean = company.replace(' ', '+').replace('&', 'and').replace('.', '')
-            title_clean = title.replace(' ', '+')
-            location_clean = location_param.replace(',', '').replace(' ', '+')
+            company_clean = company.replace(' ', '').replace('&', '').replace('.', '').replace(',', '').lower()
+            title_clean = title.replace(' ', '-').lower()
             
-            # Create search URLs for popular job sites
-            job_search_urls = [
-                f'https://www.indeed.com/jobs?q={title_clean}&l={location_clean}&fromage=2',
-                f'https://www.linkedin.com/jobs/search/?keywords={title_clean}&location={location_clean}',
-                f'https://www.glassdoor.com/Job/jobs.htm?sc.keyword={title_clean}&locT=C&locId=&jobType=',
-                f'https://www.ziprecruiter.com/jobs-search?search={title_clean}&location={location_clean}',
-                f'https://www.google.com/search?q={title_clean}+{company_clean}+jobs+{location_clean}',
+            # Create realistic company career page URLs
+            # Format: company.com/careers or company.com/jobs
+            career_page_formats = [
+                f'https://www.{company_clean}.com/careers',
+                f'https://careers.{company_clean}.com',
+                f'https://www.{company_clean}.com/jobs',
+                f'https://jobs.{company_clean}.com',
+                f'https://www.{company_clean}.com/careers/{title_clean}',
             ]
+            
+            job_search_urls = career_page_formats
             
             job = {
                 'id': f'job-{i+1}',

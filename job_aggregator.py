@@ -25,7 +25,7 @@ class JobAggregator:
         
     def get_jobs(self, query='', location='', remote=False, job_type='all', 
                  experience_level='all', salary_min=0, date_posted='all', 
-                 posted_after='', page=1, per_page=20, use_real_jobs=False):
+                 posted_after='', company='', page=1, per_page=20, use_real_jobs=False):
         """
         Fetch jobs from multiple sources
         """
@@ -47,7 +47,7 @@ class JobAggregator:
             # Apply filters
             filtered_jobs = self._apply_filters(
                 jobs, query, location, remote, job_type, 
-                experience_level, salary_min, date_posted
+                experience_level, salary_min, date_posted, company
             )
             
             # Pagination
@@ -95,7 +95,7 @@ class JobAggregator:
                 'posted_date': '2025-12-27',
                 'description': 'We are looking for an experienced Python developer to join our team. Work on cutting-edge projects with modern technologies.',
                 'skills': ['Python', 'Flask', 'Django', 'AWS', 'Docker'],
-                'url': 'https://example.com/job-1'
+                'url': '/apply/job-1'
             },
             {
                 'id': 'job-2',
@@ -109,7 +109,7 @@ class JobAggregator:
                 'posted_date': '2025-12-28',
                 'description': 'Join our frontend team to build amazing user experiences. React, TypeScript, and modern web technologies.',
                 'skills': ['React', 'TypeScript', 'CSS', 'JavaScript', 'Redux'],
-                'url': 'https://example.com/job-2'
+                'url': '/apply/job-2'
             },
             {
                 'id': 'job-3',
@@ -123,7 +123,7 @@ class JobAggregator:
                 'posted_date': '2025-12-26',
                 'description': 'Looking for a full stack developer comfortable with both frontend and backend development.',
                 'skills': ['JavaScript', 'Node.js', 'React', 'MongoDB', 'Express'],
-                'url': 'https://example.com/job-3'
+                'url': '/apply/job-3'
             },
             {
                 'id': 'job-4',
@@ -137,7 +137,7 @@ class JobAggregator:
                 'posted_date': '2025-12-29',
                 'description': 'Build and maintain data pipelines. Work with big data technologies and cloud platforms.',
                 'skills': ['Python', 'SQL', 'Spark', 'Airflow', 'AWS'],
-                'url': 'https://example.com/job-4'
+                'url': '/apply/job-4'
             },
             {
                 'id': 'job-5',
@@ -151,7 +151,7 @@ class JobAggregator:
                 'posted_date': '2025-12-25',
                 'description': 'Manage cloud infrastructure and CI/CD pipelines. Experience with Kubernetes required.',
                 'skills': ['Kubernetes', 'Docker', 'AWS', 'Terraform', 'Jenkins'],
-                'url': 'https://example.com/job-5'
+                'url': '/apply/job-5'
             },
             {
                 'id': 'job-6',
@@ -165,7 +165,7 @@ class JobAggregator:
                 'posted_date': '2025-12-28',
                 'description': 'Great opportunity for recent graduates. Learn from experienced developers.',
                 'skills': ['HTML', 'CSS', 'JavaScript', 'Git', 'React'],
-                'url': 'https://example.com/job-6'
+                'url': '/apply/job-6'
             },
             {
                 'id': 'job-7',
@@ -179,7 +179,7 @@ class JobAggregator:
                 'posted_date': '2025-12-27',
                 'description': 'Develop iOS and Android applications using React Native.',
                 'skills': ['React Native', 'JavaScript', 'iOS', 'Android', 'Firebase'],
-                'url': 'https://example.com/job-7'
+                'url': '/apply/job-7'
             },
             {
                 'id': 'job-8',
@@ -193,7 +193,7 @@ class JobAggregator:
                 'posted_date': '2025-12-29',
                 'description': 'Build and deploy ML models. Work with cutting-edge AI technologies.',
                 'skills': ['Python', 'TensorFlow', 'PyTorch', 'ML', 'Deep Learning'],
-                'url': 'https://example.com/job-8'
+                'url': '/apply/job-8'
             },
             # Jobs from reputed companies
             {
@@ -208,7 +208,7 @@ class JobAggregator:
                 'posted_date': '2025-12-29',
                 'description': 'Join our trading team to develop and implement quantitative trading strategies.',
                 'skills': ['Python', 'C++', 'Statistics', 'Machine Learning', 'Trading'],
-                'url': 'https://example.com/job-9',
+                'url': '/apply/job-9',
                 'reputed': True
             },
             {
@@ -223,7 +223,7 @@ class JobAggregator:
                 'posted_date': '2025-12-29',
                 'description': 'Build high-performance trading systems. Work with cutting-edge technology.',
                 'skills': ['C++', 'Python', 'Low Latency', 'Distributed Systems', 'Trading'],
-                'url': 'https://example.com/job-10',
+                'url': '/apply/job-10',
                 'reputed': True
             },
             {
@@ -238,7 +238,7 @@ class JobAggregator:
                 'posted_date': '2025-12-29',
                 'description': 'Develop predictive models and trading strategies using machine learning.',
                 'skills': ['Python', 'R', 'Machine Learning', 'Statistics', 'Data Science'],
-                'url': 'https://example.com/job-11',
+                'url': '/apply/job-11',
                 'reputed': True
             },
             {
@@ -253,7 +253,7 @@ class JobAggregator:
                 'posted_date': '2025-12-28',
                 'description': 'Join our investment banking division. Work on M&A, IPOs, and strategic advisory.',
                 'skills': ['Finance', 'Excel', 'Financial Modeling', 'PowerPoint', 'Analysis'],
-                'url': 'https://example.com/job-12',
+                'url': '/apply/job-12',
                 'reputed': True
             },
             {
@@ -268,7 +268,7 @@ class JobAggregator:
                 'posted_date': '2025-12-28',
                 'description': 'Build portfolio management tools and analytics platforms.',
                 'skills': ['Java', 'Python', 'SQL', 'AWS', 'Financial Systems'],
-                'url': 'https://example.com/job-13',
+                'url': '/apply/job-13',
                 'reputed': True
             },
             {
@@ -283,7 +283,7 @@ class JobAggregator:
                 'posted_date': '2025-12-29',
                 'description': 'Design and implement automated trading algorithms for global markets.',
                 'skills': ['Python', 'C++', 'Trading', 'Algorithms', 'Data Analysis'],
-                'url': 'https://example.com/job-14',
+                'url': '/apply/job-14',
                 'reputed': True
             },
             {
@@ -298,7 +298,7 @@ class JobAggregator:
                 'posted_date': '2025-12-28',
                 'description': 'Develop trading systems and tools for our market-making operations.',
                 'skills': ['C++', 'Python', 'Low Latency', 'Trading', 'Linux'],
-                'url': 'https://example.com/job-15',
+                'url': '/apply/job-15',
                 'reputed': True
             },
             {
@@ -313,7 +313,7 @@ class JobAggregator:
                 'posted_date': '2025-12-27',
                 'description': 'Apply data science to investment research and portfolio optimization.',
                 'skills': ['Python', 'R', 'Machine Learning', 'SQL', 'Statistics'],
-                'url': 'https://example.com/job-16',
+                'url': '/apply/job-16',
                 'reputed': True
             }
         ]
@@ -321,7 +321,7 @@ class JobAggregator:
         return sample_jobs
     
     def _apply_filters(self, jobs, query, location, remote, job_type, 
-                      experience_level, salary_min, date_posted):
+                      experience_level, salary_min, date_posted, company=''):
         """Apply filters to job list"""
         filtered = jobs
         
@@ -366,6 +366,15 @@ class JobAggregator:
         # Experience level filter
         if experience_level and experience_level != 'all':
             filtered = [j for j in filtered if j['experience_level'].lower() == experience_level.lower()]
+
+        # Company filter
+        if company and company != 'all':
+            try:
+                comp_lower = company.lower()
+                filtered = [j for j in filtered if 'company' in j and j['company'].lower() == comp_lower]
+            except Exception as e:
+                print(f"Company filter error: {e}")
+                pass
         
         return filtered
     
@@ -511,10 +520,13 @@ class JobAggregator:
         """Get job statistics"""
         jobs = self._get_sample_jobs()
         
+        company_set = sorted(list(set(j['company'] for j in jobs if 'company' in j)))
+
         return {
             'total_jobs': len(jobs),
             'remote_jobs': len([j for j in jobs if j['remote']]),
-            'companies': len(set(j['company'] for j in jobs)),
+            'companies': len(company_set),
+            'company_list': company_set,
             'reputed_companies': len([j for j in jobs if j.get('reputed', False)]),
             'locations': len(set(j['location'] for j in jobs))
         }
